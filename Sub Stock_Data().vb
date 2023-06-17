@@ -55,10 +55,10 @@ Sub Stock_Data()
         'Declare variables for Summary Table
         Dim greatest_percent_increase As Double
         Dim greatest_percent_decrease As Double
-        Dim greatest_total_volume As Long
+        Dim greatest_total_volume As Double
         greatest_percent_increase = 0
         greatest_percent_decrease = 0
-        greatest_total_volume = 0
+        greatest_total_volume = stock_volume(0)
         Dim ticker_greatest_percent_increase As String
         Dim ticker_greatest_percent_decrease As String
         Dim ticker_greatest_total_volume As String
@@ -118,4 +118,5 @@ Sub Stock_Data()
         
     Next
 End Sub
+
 
