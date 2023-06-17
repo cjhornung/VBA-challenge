@@ -20,21 +20,27 @@ Sub Stock_Data()
         Dim tickers()
         Dim opening_price()
         Dim closing_price()
+        Dim yearly_change()
         Dim stock_volume()
         ReDim tickers(array_counter)
         ReDim opening_price(array_counter)
         ReDim closing_price(array_counter)
+        ReDim yearly_change(array_counter)
         ReDim stock_volume(array_counter)
         
         Dim placeholder As Integer
         tickers(0) = ws.Cells(2, 1)
-        pening_price(0) = ws.Cells(2, 3)
-        stock_volume(0) = ws.Cells(2, 7)
-        placeholder = 1
+        opening_price(0) = ws.Cells(2, 3)
+        placeholder = 0
         For i = 2 To data_count
             If ws.Cells(i, 1) <> ws.Cells(i + 1, 1) Then
-                 tickers(placeholder) = ws.Cells(i, 1)
+                 tickers(placeholder + 1) = ws.Cells(i, 1)
+                 stock_volume(placeholder) = stock_volume(placeholder) + ws.Cells(i, 7)
+                 closing_price(placeholder) = ws.Cells(i, 6)
+                 opening_price(placeholder + 1) = ws.Cells(i + 1, 3)
                  placeholder = placeholder + 1
+            Else
+                stock_volume(placeholder) = stock_volume(placeholder) + ws.Cells(i, 7)
             End If
         Next i
         
@@ -46,7 +52,14 @@ Sub Stock_Data()
       
         For i = 1 To array_counter
             ws.Cells(i + 1, 9) = tickers(i - 1)
-            
+            ws.Cells(i + 1, 10) = closing_price(i - 1) - opening_price(i - 1)
+            If (ws.Cells(i + 1, 10) < 0) Then
+                ws.Cells(i + 1, 10).Interior.ColorIndex = 3
+            Else
+                ws.Cells(i + 1, 10).Interior.ColorIndex = 4
+            End If
+            ws.Cells(i + 1, 11) = (closing_price(i - 1) - opening_price(i - 1)) / opening_price(i - 1)
+            ws.Cells(i + 1, 12) = stock_volume(i - 1)
         Next i
     Next
 End Sub
